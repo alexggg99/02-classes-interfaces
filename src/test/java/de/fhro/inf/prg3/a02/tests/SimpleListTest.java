@@ -28,6 +28,11 @@ public class SimpleListTest {
 	}
 
 	@Test
+	void testAdd() {
+		assertEquals(5, testList.size());
+	}
+
+	@Test
 	void testAddElements(){
 		int counter = 0;
 		for(Object o : testList){
@@ -43,16 +48,20 @@ public class SimpleListTest {
 
 	@Test
 	void testFilterAnonymousClass(){
-		SimpleListImpl result = (SimpleListImpl) testList.filter(new SimpleFilter() {
-			@Override
-			public boolean include(Object item) {
+//		SimpleListImpl result = (SimpleListImpl) testList.filter(new SimpleFilter() {
+//			@Override
+//			public boolean include(Object item) {
+//				int current = (int)item;
+//				return current > 2;
+//			}
+//		});
+		SimpleListImpl result = (SimpleListImpl) testList.filter(item -> {
 				int current = (int)item;
 				return current > 2;
-			}
 		});
 
 		for(Object o : result){
-			int i = (int)o;
+			int i = (int)((SimpleListImpl.Element)o).getItem();
 			assertTrue(i > 2);
 		}
 	}
@@ -61,7 +70,7 @@ public class SimpleListTest {
 	void testFilterLambda(){
 		SimpleListImpl result = (SimpleListImpl) testList.filter(o -> ((int)o) % 2 == 0);
 		for(Object o : result){
-			int i = (int)o;
+			int i = (int)((SimpleListImpl.Element)o).getItem();
 			assertTrue(i % 2 == 0);
 		}
 	}
